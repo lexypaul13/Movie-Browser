@@ -15,7 +15,8 @@ class MovieTableViewCell: UITableViewCell {
     
 
     func setTableCell(movie:Movies){
-        updateUI(movieTitle:movie.unwrappedName , movieImageView: movie.backdropPath, movieDescription: movie.unwrappedOverview)
+        updateUI(movieTitle:movie.unwrappedOriginal_title , movieImageView: movie.poster_path, movieDescription: movie.unwrappedOverview)
+        
     }
     
     private func updateUI(movieTitle:String?,movieImageView:String?,movieDescription:String?){

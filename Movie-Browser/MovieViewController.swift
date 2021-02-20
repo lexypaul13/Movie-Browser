@@ -11,7 +11,7 @@ class MovieViewController: UIViewController,UITableViewDataSource, UITableViewDe
    
     @IBOutlet weak var tableView: UITableView!
     var movies = [Movies]()
-   
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,11 +25,11 @@ class MovieViewController: UIViewController,UITableViewDataSource, UITableViewDe
     }
     
     func getMovies(){
-        NetworkManger.shared.get(.showList, urlString: "") { [weak self] (result: Result<[Movies]?,ErroMessage> ) in
+        NetworkManger.shared.get(.showList, urlString: "") { [weak self] (result: Result<[ApiResponse]?,ErroMessage> ) in
             guard let self = self else { return }
             switch result{
             case .success(let movies):
-                self.movies = movies ?? []
+                self.movies = movies 
                 DispatchQueue.main.async {self.tableView.reloadData()}
             
             case .failure(let error):

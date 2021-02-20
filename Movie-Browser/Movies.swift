@@ -8,13 +8,9 @@
 import Foundation
 
 struct Movies: Codable, Hashable {
-    let id: Int?
     let overview:String?
-    let voteCount: Int?
-    let name: String?
-    let backdropPath: String?
-    let voteAverage :Double?
-    let firstAirDate :String?
+    let original_title: String?
+    let poster_path:String
 }
 
 
@@ -30,26 +26,14 @@ struct ApiResponse:Codable, Hashable {
 
 
 extension Movies{
-    var voteAverageStr: String{
-        "\(voteAverage ?? 0.0)"
-    }
-    
+  
     var unwrappedOverview:String {
         "\(overview ?? "Unavilable")"
     }
     
-    var unwrappedVoteCount:String {
-        "\(voteCount ?? 0)"
+    var unwrappedOriginal_title:String {
+        "\(original_title ?? "Unavilable")"
     }
     
-    var unwrappedName:String {
-        "\(name ?? "No Name")"
-    }
-    
-    var unwrappedfirstAirDate:String {
-        "\(firstAirDate ?? "Unavailable")"
-    }
-    
+  
 }
-
-

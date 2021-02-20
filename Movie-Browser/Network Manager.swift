@@ -9,7 +9,6 @@ import UIKit
 
 class NetworkManger{
    
-   
     enum EndPoint{
        case showList
     }
@@ -96,7 +95,7 @@ class NetworkManger{
     }
     
     
-    private func urlBuilder(endPoint:EndPoint,  query:String? = nil)->URL?{
+    private func urlBuilder(endPoint:EndPoint )->URL?{
         switch endPoint {
         case .showList:
             return URL(string: baseURL + apiKeyPathCompononent )

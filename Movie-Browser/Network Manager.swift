@@ -17,11 +17,11 @@ class NetworkManger{
     static let shared = NetworkManger()
     private let baseURL : String
     private var  apiKeyPathCompononent :String
-    let cache   = NSCache<NSString, UIImage>()
-    
+    let cache = NSCache<NSString, UIImage>()
+   
     private init(){
         self.baseURL = "https://api.themoviedb.org/3/movie/now_playing?"
-        self.apiKeyPathCompononent = "api_key=a07e22bc18f5cb106bfe4cc1f83ad8ed"
+        self.apiKeyPathCompononent =  "api_key=a07e22bc18f5cb106bfe4cc1f83ad8ed"
     }
  
     private var jsonDecoder:JSONDecoder = {
@@ -96,10 +96,10 @@ class NetworkManger{
     }
     
     
-    private func urlBuilder(endPoint:EndPoint, page:Int?=nil, query:String? = nil)->URL?{
+    private func urlBuilder(endPoint:EndPoint,  query:String? = nil)->URL?{
         switch endPoint {
         case .showList:
-            return URL(string: baseURL + apiKeyPathCompononent + "page=\(page ?? 0)" )
+            return URL(string: baseURL + apiKeyPathCompononent )
         }
     }
     

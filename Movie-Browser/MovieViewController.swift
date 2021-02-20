@@ -7,10 +7,10 @@
 
 import UIKit
 
-class MovieViewController: UIViewController,  UITableViewDataSource,UITableViewDelegate {
+class MovieViewController: UIViewController,UITableViewDataSource, UITableViewDelegate {
    
     @IBOutlet weak var tableView: UITableView!
-    var movies = [Results]()
+    var movies = [Movies]()
    
     
     override func viewDidLoad() {
@@ -25,7 +25,7 @@ class MovieViewController: UIViewController,  UITableViewDataSource,UITableViewD
     }
     
     func getMovies(){
-        NetworkManger.shared.get(.showList, urlString: "") { [weak self] (result: Result<[Results]?,ErroMessage> ) in
+        NetworkManger.shared.get(.showList, urlString: "") { [weak self] (result: Result<[Movies]?,ErroMessage> ) in
             guard let self = self else { return }
             switch result{
             case .success(let movies):

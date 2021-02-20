@@ -14,8 +14,8 @@ class MovieTableViewCell: UITableViewCell {
     @IBOutlet weak var movieDescription: UILabel!
     
 
-    func setTableCell(movie:Results){
-        updateUI(movieTitle:movie.title , movieImageView: movie.backdropPath, movieDescription: movie.overview)
+    func setTableCell(movie:Movies){
+        updateUI(movieTitle:movie.unwrappedName , movieImageView: movie.backdropPath, movieDescription: movie.unwrappedOverview)
     }
     
     private func updateUI(movieTitle:String?,movieImageView:String?,movieDescription:String?){

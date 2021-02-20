@@ -7,33 +7,78 @@
 
 import Foundation
 
-struct Movies: Codable, Hashable {
-    let overview:String?
-    let original_title: String?
-    let poster_path:String
-}
+// This file was generated from JSON Schema using quicktype, do not modify it directly.
+// To parse the JSON, add this file to your project and do:
+//
+//   let movies = try? newJSONDecoder().decode(Movies.self, from: jsonData)
 
 
-struct ApiResponse:Codable, Hashable {
-    let page:Int
-    let shows:[Movies]
-    
-    enum CodingKeys:String, CodingKey {
+// MARK: - Movies
+struct Movies: Codable {
+    var dates: Dates?
+    var page: Int?
+    var results: [Results]?
+    var totalPages: Int?
+    var totalResults: Int?
+
+    enum CodingKeys: String, CodingKey {
+        case dates = "dates"
         case page = "page"
-        case shows = "results"
+        case results = "results"
+        case totalPages = "total_pages"
+        case totalResults = "total_results"
     }
 }
 
+// MARK: - Dates
+struct Dates: Codable {
+    var maximum: String?
+    var minimum: String?
 
-extension Movies{
-  
-    var unwrappedOverview:String {
-        "\(overview ?? "Unavilable")"
+    enum CodingKeys: String, CodingKey {
+        case maximum = "maximum"
+        case minimum = "minimum"
     }
-    
-    var unwrappedOriginal_title:String {
-        "\(original_title ?? "Unavilable")"
+}
+
+// MARK: - Result
+struct Results: Codable {
+    var adult: Bool?
+    var backdropPath: String?
+    var genreIDS: [Int]?
+    var id: Int?
+    var originalLanguage: OriginalLanguage?
+    var originalTitle: String?
+    var overview: String?
+    var popularity: Double?
+    var posterPath: String?
+    var releaseDate: String?
+    var title: String?
+    var video: Bool?
+    var voteAverage: Double?
+    var voteCount: Int?
+
+    enum CodingKeys: String, CodingKey {
+        case adult = "adult"
+        case backdropPath = "backdrop_path"
+        case genreIDS = "genre_ids"
+        case id = "id"
+        case originalLanguage = "original_language"
+        case originalTitle = "original_title"
+        case overview = "overview"
+        case popularity = "popularity"
+        case posterPath = "poster_path"
+        case releaseDate = "release_date"
+        case title = "title"
+        case video = "video"
+        case voteAverage = "vote_average"
+        case voteCount = "vote_count"
     }
-    
-  
+}
+
+enum OriginalLanguage: String, Codable {
+    case en = "en"
+    case ja = "ja"
+    case ru = "ru"
+    case zh = "zh"
 }

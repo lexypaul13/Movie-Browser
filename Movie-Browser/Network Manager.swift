@@ -31,7 +31,7 @@ class NetworkManger{
     
     
     
-    func get<T:Decodable>(_ endPoints: EndPoint, urlString: String, completed:@escaping(Result<T?,ErroMessage>)->Void){
+    func get(_ endPoints: EndPoint, urlString: String,  completed:@escaping(Result<Movies,ErroMessage>)->Void){
         guard let url = urlBuilder(endPoint: endPoints) else {
             completed(.failure(.invalidURL))
             return
@@ -54,28 +54,28 @@ class NetworkManger{
                 return
             }
             do{
-                let apiResponse = try self.jsonDecoder.decode(T.self, from: data)
+                let apiResponse = try self.jsonDecoder.decode(Movies.self, from: data)
                 DispatchQueue.main.async {
                     completed(.success(apiResponse))
                 }
                 
             } catch{
-                print(ErroMessage.invalidData.rawValue)
+                print( error)
             }
         }
         task.resume()
     }
     
-    func downloadImage(from urlString: String, completed: @escaping (UIImage?) -> Void) {  //downloads image
-        let cacheKey = NSString(string: urlString) //creates cacheKey to store in image variable
-        let imagesBaseURLSTring = "https://image.tmdb.org/t/p/w500"
-        
-        guard let url = URL(string: imagesBaseURLSTring)?.appendingPathComponent(urlString)else {
+ 
+    func downloadImage(from urlString: String, completed: @escaping (UIImage?) -> Void) { // downloads image
+        let cacheKey = NSString(string: urlString) // creates cacheKey to store in image variable
+        let imagesBaseURLSTring = "https://image.tmdb.org/t/p/w185"
+        guard let url = URL(string: imagesBaseURLSTring + urlString) else {
             completed(nil)
             return
         }
         
-        if let image = cache.object(forKey: cacheKey) {  //check if image is there
+        if let image = cache.object(forKey: cacheKey) { // check if image is there
             completed(image)
             return
         }
@@ -88,12 +88,13 @@ class NetworkManger{
                 completed(nil)
                 return
             }
-            self.cache.setObject(image, forKey: cacheKey)
-            completed(image)
+            DispatchQueue.main.async { [weak self] in
+                self?.cache.setObject(image, forKey: cacheKey)
+                completed(image)
+            }
         }
         task.resume()
     }
-    
     
     private func urlBuilder(endPoint:EndPoint )->URL?{
         switch endPoint {

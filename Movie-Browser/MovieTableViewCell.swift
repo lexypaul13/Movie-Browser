@@ -14,8 +14,8 @@ class MovieTableViewCell: UITableViewCell {
     @IBOutlet weak var movieDescription: UILabel!
     
 
-    func setTableCell(movie:Movies){
-        updateUI(movieTitle:movie.unwrappedOriginal_title , movieImageView: movie.poster_path, movieDescription: movie.unwrappedOverview)
+    func setTableCell(movie:Results){
+        updateUI(movieTitle:movie.title, movieImageView: movie.posterPath, movieDescription: movie.overview)
         
     }
     
@@ -28,7 +28,7 @@ class MovieTableViewCell: UITableViewCell {
     func downloadTVImage(_ url:String) {
         NetworkManger.shared.downloadImage(from:url) { [weak self] image in
             guard let self = self else { return }
-            DispatchQueue.main.async { self.movieImageView = self.movieImageView }
+            DispatchQueue.main.async { self.movieImageView.image = image }
         
         }
     

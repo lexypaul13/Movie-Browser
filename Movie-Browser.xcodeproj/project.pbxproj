@@ -109,10 +109,10 @@
 			children = (
 				5734029325E09F2F0038C350 /* AppDelegate.swift */,
 				5734029525E09F2F0038C350 /* SceneDelegate.swift */,
-				5734029725E09F2F0038C350 /* MovieViewController.swift */,
 				573402E625E0A9BA0038C350 /* Error Messages.swift */,
 				5734029925E09F2F0038C350 /* Main.storyboard */,
 				573402DE25E0A5370038C350 /* MovieTableViewCell.swift */,
+				5734029725E09F2F0038C350 /* MovieViewController.swift */,
 				573402C625E0A0BB0038C350 /* Network Manager.swift */,
 				573402CE25E0A1A90038C350 /* Movies.swift */,
 				5734029C25E09F2F0038C350 /* Assets.xcassets */,

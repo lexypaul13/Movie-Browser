@@ -6,11 +6,11 @@
 //
 
 import UIKit
-
-class MovieViewController: UIViewController,UITableViewDataSource, UITableViewDelegate {
+import AlamofireImage
+class MovieViewController: UIViewController {
    
     @IBOutlet weak var tableView: UITableView!
-    var movies = [Results]()
+    var movies = [[String:Any]]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -24,36 +24,54 @@ class MovieViewController: UIViewController,UITableViewDataSource, UITableViewDe
     }
     
     func getMovies(){
-            NetworkManger.shared.get(.showList, urlString: "") { [weak self] (result: Result<Movies,ErroMessage> ) in
-                guard let self = self else { return }
-                switch result{
-                case .success(let apiResult):
-                    self.movies = apiResult.results ?? []
-                    DispatchQueue.main.async {self.tableView.reloadData()}
+        let url = URL(string: "https://api.themoviedb.org/3/movie/now_playing?api_key=a07e22bc18f5cb106bfe4cc1f83ad8ed")!
+        let request = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalCacheData, timeoutInterval: 10)
+        let session = URLSession(configuration: .default, delegate: nil, delegateQueue: OperationQueue.main)
+        let task = session.dataTask(with: request) { (data, response, error) in
+           // This will run when the network request returns
+           if let error = error {
+              print(error.localizedDescription)
+           } else if let data = data {
+              let dataDictionary = try! JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
+            self.movies = dataDictionary["results"] as! [[String:Any]]
+            self.tableView.reloadData() 
+            
 
-                case .failure(let error):
-                    print(error.localizedDescription)
-                }
-
-            }
+           }
         }
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        movies.count
-    }
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 163
-    }
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! MovieTableViewCell
-        let movie = movies[indexPath.row]
-        cell.setTableCell(movie: movie)
-        return cell
-    }
-    
-
-
-    
-    
+        task.resume()
+        }
     
 }
 
+extension MovieViewController: UITableViewDataSource, UITableViewDelegate{
+  
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        movies.count
+    }
+    
+  
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! MovieTableViewCell
+        
+        let movie = movies[indexPath.row]
+        let title = movie["title"] as! String
+        let overview = movie["overview"] as! String
+       
+        cell.movieTile!.text = title
+        cell.movieDescription!.text = overview
+        
+        return cell
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        let cell = sender as! MovieTableViewCell
+        let indexPath = tableView.indexPath(for: cell)!
+        let movie = movies[indexPath.row]
+        let detailViewcontroller = segue.destination as! MovieDetailsViewController
+        detailViewcontroller.movie = movie
+        
+    }
+    
+}

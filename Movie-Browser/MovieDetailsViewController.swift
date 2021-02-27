@@ -33,6 +33,10 @@ class MovieDetailsViewController: UIViewController {
     
     
     func getBackDropImage(){
+        let title = movie!["title"] as! String
+        titleLabel.text = title
+        let overview = movie!["overview"] as! String
+        descriptionLabel.text = overview
         let baseUrl = "https://image.tmdb.org/t/p/w500"
         let backDropPath = movie!["backdrop_path" ] as! String
         let posterImagerURL = URL(string: baseUrl + backDropPath)

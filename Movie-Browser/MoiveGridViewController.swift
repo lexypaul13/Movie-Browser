@@ -14,7 +14,7 @@ class MoiveGridViewController: UIViewController, UICollectionViewDataSource, UIC
     @IBOutlet weak var collectionView: UICollectionView!
     override func viewDidLoad() {
         super.viewDidLoad()
-     getMovies()
+      getMovies()
         configureCollectionView()
         // Do any additional setup after loading the view.
     }
@@ -24,8 +24,8 @@ class MoiveGridViewController: UIViewController, UICollectionViewDataSource, UIC
         collectionView.dataSource = self
         let layout = collectionView.collectionViewLayout as! UICollectionViewFlowLayout
         layout.minimumLineSpacing = 40
-        layout.minimumInteritemSpacing = 40
-        let width = view.frame.size.width / 3
+        layout.minimumInteritemSpacing = 0
+        let width = (view.frame.size.width - layout.minimumLineSpacing * 2)/3
         layout.itemSize = CGSize(width: width, height: width * 3/2)
         
     }
@@ -57,13 +57,14 @@ class MoiveGridViewController: UIViewController, UICollectionViewDataSource, UIC
         let cell = collectionView.dequeueReusableCell(  withReuseIdentifier: "MovieCollectionViewCell", for: indexPath) as! MovieCollectionViewCell
         
         let movie = movies[indexPath.item]
-        
+        let overview = movie["overview"] as! String
+
         let baseUrl = "https://image.tmdb.org/t/p/w500"
         let posterPath = movie["poster_path" ] as! String
         let posterURL = URL(string: baseUrl + posterPath)
       
         cell.moviePicture.af.setImage(withURL: posterURL!)
-
+        
         return cell
      }
 }
